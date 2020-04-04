@@ -37,7 +37,7 @@ export default class Home extends Component {
             <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Chat', item)} >
                 <View style={{ flex: 1, flexDirection: 'row', padding: 15, borderBottomColor: '#ccc', borderBottomWidth: 1 }}>
-                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/account.png')} />
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/user.png')} />
                     <Text style={{ fontSize: 22, marginLeft: 15 }}>{item.username}</Text>
                 </View>
             </TouchableOpacity>

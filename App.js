@@ -159,7 +159,7 @@ const App = () => {
     } catch (e) {
 
     }
-    setIsLoading(false);
+    // setIsLoading(false);
     setUserToken(userToken);
   }
 
@@ -182,14 +182,15 @@ const App = () => {
       },
       signOut: () => {
         removeToken();
-      }
+      },
+
     };
   }, []);
 
   useEffect(() => {
     getToken();
     setTimeout(() => {
-      setIsLoading(false);
+      setIsLoading(false);      
     }, 2000)
   }, [])
 

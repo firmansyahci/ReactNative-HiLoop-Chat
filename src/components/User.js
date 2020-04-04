@@ -1,3 +1,6 @@
 const User = {
-    uid: '',
+    uid: null,
+    username: null,
+    email: null,
+    img: null,
 }
