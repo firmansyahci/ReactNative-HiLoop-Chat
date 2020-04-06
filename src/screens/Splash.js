@@ -3,14 +3,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import User from '../components/User';
 import firebase from 'firebase';
 
-class Splash extends Component {
-    render() {
-        return(
-            <View style = { styles.container } >
-                <Text style={styles.textLogo}>Hi Loop!</Text>
-            </View>
-        )
-    }  
+const Splash = () => {
+    return (
+        <View style={styles.container} >
+            <Text style={styles.textLogo}>Hi Loop!</Text>
+        </View>
+    )
 }
 
 export default Splash

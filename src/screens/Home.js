@@ -1,43 +1,77 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, Image, ActivityIndicator, StatusBar } from 'react-native'
 import firebase from 'firebase';
 import { FlatList } from 'react-native-gesture-handler'
 import User from '../components/User';
+import Friends from '../components/Friends';
 
 export default class Home extends Component {
 
     state = {
         users: [],
-        dbRef: firebase.database().ref('users')
+        dbRef: firebase.database().ref('users'),
+        isLoading: false
     }
 
     componentDidMount() {
+        this.setState({
+            isLoading: true
+        })
+        // this.getUser();
+        // this.getLocation();
+        let data = [];
         this.state.dbRef.on('child_added', (val) => {
             let person = val.val();
             person.uid = val.key;
             if (person.uid === User.uid) {
-                User.email = person.email;
-                User.username = person.username;
+              User.email = person.email;
+              User.username = person.username;
+              User.img = person.img ? person.img : null
             } else {
-                this.setState((prevState) => {
-                    return {
-                        users: [...prevState.users, person]
-                    }
-                })
+                data.push(person)
+              this.setState((prevState) => {
+                return {
+                    users: [...prevState.users, person],
+                    isLoading: false
+                }
+              })
             }
-        })
+            Friends.data = data;
+          })
+          console.log(Friends.data)
+    }
+
+    getUser = () => {
+        let data = []
+        dbRef.on('child_added', (val) => {
+            let person = val.val();
+            person.uid = val.key;
+            if (person.uid === User.uid) {
+              User.email = person.email;
+              User.username = person.username;
+              User.img = person.img ? person.img : null
+            } else {
+                data.push(person);
+              this.setState((prevState) => {
+                return {
+                    users: [...prevState.users, person],
+                    isLoading: false
+                }
+              })
+            }
+            Friends.data = data;
+          })
     }
 
     componentWillUnmount() {
-        this.state.dbRef.off()
+        this.state.dbRef.off();
     }
 
     renderRow = ({ item }) => {
         return (
-            <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Chat', item)} >
+            <TouchableOpacity>
                 <View style={{ flex: 1, flexDirection: 'row', padding: 15, borderBottomColor: '#ccc', borderBottomWidth: 1 }}>
-                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/user.png')} />
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={item.img ? { uri: item.img } : require('../assets/user.png')} />
                     <Text style={{ fontSize: 22, marginLeft: 15 }}>{item.username}</Text>
                 </View>
             </TouchableOpacity>
@@ -46,6 +80,10 @@ export default class Home extends Component {
 
     render() {
         return (
+            this.state.isLoading ? <View>
+            <ActivityIndicator />
+            <StatusBar barStyle="default" />
+        </View> :
             <SafeAreaView>
                 <FlatList
                     data={this.state.users}

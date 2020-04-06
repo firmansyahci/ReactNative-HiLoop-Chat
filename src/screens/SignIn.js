@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Text, View, TextInput, TouchableOpacity, ToastAndroid, ActivityIndicator, StatusBar } from 'react-native'
 import styles from '../assets/styles'
 import { AuthContext } from '../components/context'
-import AsyncStorage from '@react-native-community/async-storage';
 import firebase from '../configs/firebase'
+import User from '../components/User';
 
 const SignIn = ({ navigation }) => {
     const { signIn } = React.useContext(AuthContext);

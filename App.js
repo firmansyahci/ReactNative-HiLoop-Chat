@@ -13,7 +13,9 @@ import Maps from './src/screens/Maps';
 import Profile from './src/screens/Profile';
 import { AuthContext } from './src/components/context';
 import User from './src/components/User';
-import Chat from './src/components/Chat'
+import Friends from './src/components/Friends';
+import Chat from './src/components/Chat';
+import Geolocation from '@react-native-community/geolocation';
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -39,7 +41,8 @@ const HomeStackScreen = () => (
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-      },}} />
+      },
+    }} />
   </HomeStack.Navigator>
 );
 
@@ -53,7 +56,8 @@ const MapsStackScreen = () => (
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-      },}} />
+      },
+    }} />
   </MapsStack.Navigator>
 );
 
@@ -67,7 +71,8 @@ const ProfileStackScreen = () => (
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-      },}} />
+      },
+    }} />
   </ProfileStack.Navigator>
 );
 
@@ -141,38 +146,78 @@ const App = () => {
   const [userToken, setUserToken] = useState(false);
 
   const setToken = async (token) => {
-    let userToken;
     try {
       await AsyncStorage.setItem('userToken', token);
     } catch (e) {
 
     }
     setIsLoading(false);
-    setUserToken(userToken);
+    setUserToken(token);
   }
 
   const getToken = async () => {
-    let userToken;
+    let uid;
     try {
-      userToken = await AsyncStorage.getItem('userToken');
-      User.uid = userToken;
+      uid = await AsyncStorage.getItem('userToken');
+      User.uid = uid;
+      if (uid) {
+        getLocation();
+      }
+      // if (uid) {
+      //   console.log('Hi')
+      //   let data = [];
+      //   firebase.database().ref('users').on('child_added', (val) => {
+      //     let person = val.val();
+      //     person.uid = val.key;
+      //     if (person.uid === User.uid) {
+      //       User.email = person.email;
+      //       User.username = person.username;
+      //       User.img = person.img ? person.img : null
+      //     } else {
+      //       data.push(person);
+      //     }
+      //   })
+      //   Friends.data = data
+      // }
     } catch (e) {
 
     }
-    // setIsLoading(false);
-    setUserToken(userToken);
+    setUserToken(uid);
   }
 
   const removeToken = async () => {
-    let userToken;
     try {
-      userToken = await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('userToken');
+      User.uid = null
     } catch (e) {
 
     }
     setIsLoading(false);
     setUserToken(null);
   }
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(response => {
+      console.log(response)
+      User.location = response;
+    })
+  }
+
+  // const getUser = () => {
+  //   let data = [];
+  //   firebase.database().ref('users').on('child_added', (val) => {
+  //     let person = val.val();
+  //     person.uid = val.key;
+  //     if (person.uid === User.uid) {
+  //       User.email = person.email;
+  //       User.username = person.username;
+  //       User.img = person.img ? person.img : null
+  //     } else {
+  //       data.push(person);
+  //     }
+  //   })
+  //   Friends.data = data
+  // }
 
   const authContext = useMemo(() => {
     return {
@@ -183,15 +228,15 @@ const App = () => {
       signOut: () => {
         removeToken();
       },
-
     };
   }, []);
 
   useEffect(() => {
     getToken();
+
     setTimeout(() => {
-      setIsLoading(false);      
-    }, 2000)
+      setIsLoading(false);
+    }, 1000)
   }, [])
 
   if (isLoading) {

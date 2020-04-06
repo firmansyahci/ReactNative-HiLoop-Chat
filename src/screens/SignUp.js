@@ -1,26 +1,23 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, TouchableOpacity, ToastAndroid, ActivityIndicator, StatusBar } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, ToastAndroid, ScrollView, SafeAreaView, Alert, Keyboard } from 'react-native'
 import styles from '../assets/styles'
-import { AuthContext } from '../components/context'
 import firebase from '../configs/firebase'
+import User from '../components/User';
 
 const SignUp = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSignUp = async () => {
-        setIsLoading(true)
+        Keyboard.dismiss();
         if (username == '') {
-            setIsLoading(false);
             ToastAndroid.show('username must be fill', ToastAndroid.SHORT);
             return
         }
 
         if (password != passwordMatch) {
-            setIsLoading(false);
             ToastAndroid.show('password not match', ToastAndroid.SHORT);
             return
         }
@@ -29,26 +26,20 @@ const SignUp = ({ navigation }) => {
             .createUserWithEmailAndPassword(email, password)
             .then(res => {
                 firebase.database().ref('users/' + res.user.uid)
-                .set({
-                    username: username,
-                    email: email
-                })
-                navigation.navigate('SignIn');
+                    .set({
+                        username: username,
+                        email: email,
+                        location: User.location
+                    })
+                Alert.alert('Sukses', 'Please Login', [{ text: 'Ok', onPress: () => navigation.navigate('SignIn') }]);
             })
             .catch(function (error) {
-                setIsLoading(false);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
             });
-        
+
     }
 
     return (
-        isLoading ? (
-            <View>
-            <ActivityIndicator />
-            <StatusBar barStyle="default" />
-        </View>
-        ) : (
         <View style={styles.container}>
             <View style={styles.logo}>
                 <Text style={styles.logoFont}>Hi Loop !</Text>
@@ -88,7 +79,6 @@ const SignUp = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
         </View>
-        )
     )
 }
 

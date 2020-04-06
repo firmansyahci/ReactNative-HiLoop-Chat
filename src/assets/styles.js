@@ -39,7 +39,12 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 10,
         backgroundColor: '#0040ff'
+    },
+    btnText: {
+        fontSize: 20,
+        marginBottom: 10,
+        color: 'darkblue'
     }
 })
 
-export default styles;
+export default styles; 
