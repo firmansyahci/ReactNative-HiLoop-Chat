@@ -198,7 +198,6 @@ const App = () => {
 
   const getLocation = () => {
     Geolocation.getCurrentPosition(response => {
-      console.log(response)
       User.location = response;
     })
   }

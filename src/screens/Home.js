@@ -38,7 +38,6 @@ export default class Home extends Component {
             }
             Friends.data = data;
           })
-          console.log(Friends.data)
     }
 
     getUser = () => {
@@ -69,7 +68,7 @@ export default class Home extends Component {
 
     renderRow = ({ item }) => {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Chat', item)}>
                 <View style={{ flex: 1, flexDirection: 'row', padding: 15, borderBottomColor: '#ccc', borderBottomWidth: 1 }}>
                     <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={item.img ? { uri: item.img } : require('../assets/user.png')} />
                     <Text style={{ fontSize: 22, marginLeft: 15 }}>{item.username}</Text>
