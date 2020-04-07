@@ -107,20 +107,20 @@ export default class Profile extends Component {
                             <Image style={{ width: 100, height: 100, borderRadius: 100, resizeMode: 'cover', marginBottom: 10 }} source={this.state.imgSrc} />
                     }
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20 }}>
+                <Text style={{ fontSize: 22 }}>
                     {User.email}
                 </Text>
-                <Text style={{ fontSize: 20 }}>
+                <Text style={{ fontSize: 22 }}>
                     {this.state.username}
                 </Text>
-                <TextInput
+                {/* <TextInput
                     style={styles.input}
                     value={this.state.username}
                     onChangeText={e => this.setState({ username: e })}
                 />
                 <TouchableOpacity onPress={this.changeName}>
                     <Text style={styles.btnText}>Change Name</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={this.signOut}>
                     <Text style={styles.btnText}> <Image style={{width: 20, height: 20}} source={require('../assets/logout.png')} /> Logout</Text>
                 </TouchableOpacity>

@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         fontSize: 20,
-        marginBottom: 10,
+        marginTop: 10,
         color: 'darkblue'
     }
 })

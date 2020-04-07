@@ -19,6 +19,9 @@ export default class Maps extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            friends: [User, ...this.state.friends]
+        })
         setTimeout(() => {
             firebase.database().ref('users').child(User.uid).set(User)
         }, 2000)
@@ -26,11 +29,9 @@ export default class Maps extends Component {
 
     renderCarouselItem = ({ item }) => (
         <TouchableOpacity>
-            <View>
-                <Text>{item.username}</Text>
-                <Text>{item.email}</Text>
-                <Image
-                    style={{ height: 50, width: 50 }}
+            <View style={styles.cardContainer}>
+            <Image
+                    style={{ height: 50, width: 50, borderRadius: 50, marginBottom: 5 }}
                     source={
                         item.img
                             ? { uri: item.img }
@@ -40,6 +41,7 @@ export default class Maps extends Component {
                             }
                     }
                 />
+                <Text style={styles.cardTitle}>{item.username}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -105,4 +107,19 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
     },
+    cardContainer: {
+        backgroundColor: 'grey',
+        height: 100,
+        width: 230,
+        borderRadius: 15,
+        marginBottom: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      cardTitle: {
+        color: 'white',
+        fontSize: 18,
+        alignSelf: 'center',
+        marginBottom: 5,
+      },
 });
