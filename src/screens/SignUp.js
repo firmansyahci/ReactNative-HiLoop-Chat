@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, TouchableOpacity, ToastAndroid, ScrollView, SafeAreaView, Alert, Keyboard } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, ToastAndroid, ScrollView, Alert, Keyboard } from 'react-native'
 import styles from '../assets/styles'
 import firebase from '../configs/firebase'
 import User from '../components/User';
@@ -29,14 +29,13 @@ const SignUp = ({ navigation }) => {
                     .set({
                         username: username,
                         email: email,
-                        location: User.location
+                        location : User.location
                     })
                 Alert.alert('Sukses', 'Please Login', [{ text: 'Ok', onPress: () => navigation.navigate('SignIn') }]);
             })
             .catch(function (error) {
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
             });
-
     }
 
     return (
@@ -44,7 +43,8 @@ const SignUp = ({ navigation }) => {
             <View style={styles.logo}>
                 <Text style={styles.logoFont}>Hi Loop !</Text>
             </View>
-            <View style={styles.form}>
+            <ScrollView>
+            <View style={{ flex: 3, alignItems: 'center' }}>
                 <TextInput
                     placeholder="Username"
                     style={styles.input}
@@ -78,6 +78,7 @@ const SignUp = ({ navigation }) => {
                     <Text>Have an account? Log in</Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </View>
     )
 }

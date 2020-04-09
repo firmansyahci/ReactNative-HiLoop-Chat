@@ -17,8 +17,6 @@ export default class Home extends Component {
         this.setState({
             isLoading: true
         })
-        // this.getUser();
-        // this.getLocation();
         let data = [];
         this.state.dbRef.on('child_added', (val) => {
             let person = val.val();
@@ -29,28 +27,6 @@ export default class Home extends Component {
               User.img = person.img ? person.img : null
             } else {
                 data.push(person)
-              this.setState((prevState) => {
-                return {
-                    users: [...prevState.users, person],
-                    isLoading: false
-                }
-              })
-            }
-            Friends.data = data;
-          })
-    }
-
-    getUser = () => {
-        let data = []
-        dbRef.on('child_added', (val) => {
-            let person = val.val();
-            person.uid = val.key;
-            if (person.uid === User.uid) {
-              User.email = person.email;
-              User.username = person.username;
-              User.img = person.img ? person.img : null
-            } else {
-                data.push(person);
               this.setState((prevState) => {
                 return {
                     users: [...prevState.users, person],

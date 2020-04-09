@@ -4,11 +4,12 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column'
     },
     logo: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        flexGrow: 1
     },
     logoFont: {
         fontSize: 40,

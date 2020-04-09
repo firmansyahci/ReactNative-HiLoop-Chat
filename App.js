@@ -160,25 +160,7 @@ const App = () => {
     try {
       uid = await AsyncStorage.getItem('userToken');
       User.uid = uid;
-      if (uid) {
-        getLocation();
-      }
-      // if (uid) {
-      //   console.log('Hi')
-      //   let data = [];
-      //   firebase.database().ref('users').on('child_added', (val) => {
-      //     let person = val.val();
-      //     person.uid = val.key;
-      //     if (person.uid === User.uid) {
-      //       User.email = person.email;
-      //       User.username = person.username;
-      //       User.img = person.img ? person.img : null
-      //     } else {
-      //       data.push(person);
-      //     }
-      //   })
-      //   Friends.data = data
-      // }
+      getLocation();
     } catch (e) {
 
     }
@@ -198,25 +180,10 @@ const App = () => {
 
   const getLocation = () => {
     Geolocation.getCurrentPosition(response => {
+      console.log(response);
       User.location = response;
     })
   }
-
-  // const getUser = () => {
-  //   let data = [];
-  //   firebase.database().ref('users').on('child_added', (val) => {
-  //     let person = val.val();
-  //     person.uid = val.key;
-  //     if (person.uid === User.uid) {
-  //       User.email = person.email;
-  //       User.username = person.username;
-  //       User.img = person.img ? person.img : null
-  //     } else {
-  //       data.push(person);
-  //     }
-  //   })
-  //   Friends.data = data
-  // }
 
   const authContext = useMemo(() => {
     return {

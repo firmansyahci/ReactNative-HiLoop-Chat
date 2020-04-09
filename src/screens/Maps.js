@@ -5,7 +5,6 @@ import firebase from 'firebase';
 import User from '../components/User';
 import Friends from '../components/Friends'
 import Carousel from 'react-native-snap-carousel';
-import Geolocation from '@react-native-community/geolocation';
 
 const screen = Dimensions.get('window');
 
